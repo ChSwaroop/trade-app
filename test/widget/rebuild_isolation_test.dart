@@ -1,19 +1,17 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:trade_app/core/money/money.dart';
-import 'package:trade_app/data/models/price_snapshot.dart';
 import 'package:trade_app/data/models/quote.dart';
 import 'package:trade_app/market/market_providers.dart';
 import 'package:trade_app/market/stock_universe.dart';
+
+import '../support/fake_snapshots.dart';
 
 /// Proves the core performance claim: a tick for one instrument rebuilds only
 /// the widgets bound to that instrument, and leaves every other row untouched.
 void main() {
   testWidgets('a tick rebuilds only the affected symbol', (WidgetTester tester) async {
-    final _FakeSnapshots feed = _FakeSnapshots();
+    final FakeSnapshots feed = FakeSnapshots();
     final Map<String, int> buildCounts = <String, int>{};
 
     await tester.pumpWidget(
@@ -61,7 +59,7 @@ void main() {
   });
 
   testWidgets('an unchanged republish rebuilds nothing', (WidgetTester tester) async {
-    final _FakeSnapshots feed = _FakeSnapshots();
+    final FakeSnapshots feed = FakeSnapshots();
     int builds = 0;
 
     await tester.pumpWidget(
@@ -93,48 +91,6 @@ void main() {
 
     expect(builds, 0);
   });
-}
-
-/// Emits snapshots on demand, standing in for the coalescing store.
-class _FakeSnapshots {
-  final StreamController<PriceSnapshot> _controller =
-      StreamController<PriceSnapshot>.broadcast();
-
-  final Map<String, int> _prices = <String, int>{
-    for (final Stock s in StockUniverse.all) s.symbol: s.startingPricePaise,
-  };
-  final Map<String, int> _sequences = <String, int>{};
-  int _snapshotSequence = 0;
-
-  Stream<PriceSnapshot> get stream => _controller.stream;
-
-  /// Publishes a snapshot in which only [moved] changed. Symbols absent from
-  /// [moved] keep their previous quote object identity-for-value, which is
-  /// what lets the selector drop their rebuild.
-  void emit(Map<String, int> moved) {
-    moved.forEach((String symbol, int paise) {
-      _prices[symbol] = paise;
-      _sequences[symbol] = (_sequences[symbol] ?? 0) + 1;
-    });
-
-    _snapshotSequence++;
-    _controller.add(
-      PriceSnapshot(
-        quotes: <String, Quote>{
-          for (final Stock s in StockUniverse.all)
-            s.symbol: Quote(
-              symbol: s.symbol,
-              ltp: Money.fromPaise(_prices[s.symbol]!),
-              previousClose: s.startingPrice,
-              direction: TickDirection.up,
-              sequence: _sequences[s.symbol] ?? 0,
-            ),
-        },
-        sequence: _snapshotSequence,
-        timestamp: DateTime.now(),
-      ),
-    );
-  }
 }
 
 /// A leaf bound to one symbol, reporting every rebuild.

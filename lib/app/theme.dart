@@ -198,6 +198,20 @@ abstract final class AppTheme {
         centerTitle: false,
         toolbarHeight: AppSpacing.appBarHeight,
        ),
+      // Material's default snack bar inverts the surface, which lands as a
+      // white slab in a dark trading UI. Undo prompts appear over live prices,
+      // so they have to sit in the same palette.
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: AppColors.surfaceContainer,
+        contentTextStyle: AppTypography.bodyMd.copyWith(
+          color: AppColors.onSurface,
+        ),
+        actionTextColor: AppColors.accent,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+        ),
+      ),
       splashFactory: InkSparkle.splashFactory,
       visualDensity: VisualDensity.compact,
     );

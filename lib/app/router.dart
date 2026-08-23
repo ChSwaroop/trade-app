@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/live_prices/live_prices_screen.dart';
+import '../features/watchlists/watchlist_detail_screen.dart';
+import '../features/watchlists/watchlists_screen.dart';
 import 'placeholder_screen.dart';
 import 'shell_scaffold.dart';
 
@@ -9,6 +11,9 @@ abstract final class AppRoutes {
   static const String market = '/market';
   static const String watchlists = '/watchlists';
   static const String holdings = '/holdings';
+
+  /// Path parameter naming the watchlist on the detail route.
+  static const String watchlistIdParam = 'watchlistId';
 }
 
 /// Three branches, one per bottom-navigation destination.
@@ -39,10 +44,20 @@ final GoRouter appRouter = GoRouter(
           routes: <RouteBase>[
             GoRoute(
               path: AppRoutes.watchlists,
-              builder: (BuildContext context, GoRouterState state) => const PlaceholderScreen(
-                title: 'Watchlists',
-                message: 'Watchlists arrive in the next feature.',
-              ),
+              builder: (BuildContext context, GoRouterState state) =>
+                  const WatchlistsScreen(),
+              routes: <RouteBase>[
+                // Nested so the detail screen keeps the bottom bar and the
+                // back stack belongs to the Watchlists branch.
+                GoRoute(
+                  path: ':${AppRoutes.watchlistIdParam}',
+                  builder: (BuildContext context, GoRouterState state) =>
+                      WatchlistDetailScreen(
+                    watchlistId:
+                        state.pathParameters[AppRoutes.watchlistIdParam]!,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

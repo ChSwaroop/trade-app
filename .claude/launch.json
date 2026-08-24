@@ -6,6 +6,12 @@
       "runtimeExecutable": "flutter",
       "runtimeArgs": ["run", "-d", "web-server", "--web-port", "5123", "--web-hostname", "127.0.0.1"],
       "port": 5123
+    },
+    {
+      "name": "web-release",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "5124", "--bind", "127.0.0.1", "--directory", "build/web"],
+      "port": 5124
     }
   ]
 }

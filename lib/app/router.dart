@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/holdings/holdings_screen.dart';
 import '../features/live_prices/live_prices_screen.dart';
 import '../features/orders/order_confirmation_screen.dart';
 import '../features/orders/order_ticket_screen.dart';
 import '../features/watchlists/watchlist_detail_screen.dart';
 import '../features/watchlists/watchlists_screen.dart';
-import 'placeholder_screen.dart';
 import 'shell_scaffold.dart';
 
 abstract final class AppRoutes {
@@ -92,10 +92,7 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: AppRoutes.holdings,
               builder: (BuildContext context, GoRouterState state) =>
-                  const PlaceholderScreen(
-                title: 'Holdings',
-                message: 'Holdings arrive after the order ticket.',
-              ),
+                  const HoldingsScreen(),
               routes: _ticketRoutes(),
             ),
           ],

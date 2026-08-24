@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../market/market_providers.dart';
 import '../../market/stock_universe.dart';
@@ -77,9 +78,10 @@ class LivePricesScreen extends StatelessWidget {
                           key: ValueKey<String>(stocks[i].symbol),
                           stock: stocks[i],
                           showDivider: i < stocks.length - 1,
-                          onTap: () {
-                            // Wired to the order ticket in a later feature.
-                          },
+                          onTap: () => AppRoutes.openTicket(
+                            context,
+                            stocks[i].symbol,
+                          ),
                         ),
                     ],
                   ),

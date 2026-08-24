@@ -188,9 +188,7 @@ class _RemovableRow extends ConsumerWidget {
         symbol: symbol,
         index: index,
         showDivider: showDivider,
-        onTap: () {
-          // Wired to the order ticket in a later feature.
-        },
+        onTap: () => AppRoutes.openTicket(context, symbol),
       ),
     );
   }

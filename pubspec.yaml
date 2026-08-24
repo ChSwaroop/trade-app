@@ -25,6 +25,9 @@ dependencies:
   # Money — arbitrary-precision decimal arithmetic, never doubles
   decimal: ^3.2.6
 
+  # Exact-rational multiplication for cost-basis reduction on partial sells
+  rational: ^2.2.3
+
   # IDs for watchlists and orders
   uuid: ^4.6.0
 

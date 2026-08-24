@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:rational/rational.dart';
 
 /// An exact monetary amount in Indian rupees.
 ///
@@ -91,6 +92,25 @@ class Money implements Comparable<Money> {
       (_value / Decimal.fromInt(divisor))
           .toDecimal(scaleOnInfinitePrecision: scale)
           .round(scale: scale),
+    );
+  }
+
+  /// Scales this amount by the exact fraction [numerator] / [denominator],
+  /// rounded to paise once at the end.
+  ///
+  /// Holdings uses this to reduce `totalCost` on a partial sell — the
+  /// carry-forward rule in `implementations/market.md` §3. Doing the
+  /// multiplication as an exact [Rational] and rounding once at the end is
+  /// what stops the rounded average cost from feeding drift back into the
+  /// stored basis; naive `avgCost × qtySold` would.
+  Money scaledBy(int numerator, int denominator) {
+    if (denominator == 0) {
+      throw ArgumentError.value(denominator, 'denominator', 'Cannot scale by zero');
+    }
+    final Rational scaled =
+        _value.toRational() * Rational.fromInt(numerator, denominator);
+    return Money._(
+      scaled.toDecimal(scaleOnInfinitePrecision: scale).round(scale: scale),
     );
   }
 

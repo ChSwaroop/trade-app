@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:trade_app/core/money/money.dart';
-import 'package:trade_app/core/money/money_format.dart';
-import 'package:trade_app/core/storage/json_store.dart';
-import 'package:trade_app/data/models/watchlist.dart';
-import 'package:trade_app/data/repositories/watchlist_repository.dart';
-import 'package:trade_app/features/watchlists/watchlist_detail_screen.dart';
-import 'package:trade_app/features/watchlists/watchlist_providers.dart';
-import 'package:trade_app/features/watchlists/widgets/watchlist_row.dart';
-import 'package:trade_app/market/market_providers.dart';
+import 'package:tradedirect/core/money/money.dart';
+import 'package:tradedirect/core/money/money_format.dart';
+import 'package:tradedirect/core/storage/json_store.dart';
+import 'package:tradedirect/data/models/watchlist.dart';
+import 'package:tradedirect/data/repositories/watchlist_repository.dart';
+import 'package:tradedirect/features/watchlists/watchlist_detail_screen.dart';
+import 'package:tradedirect/features/watchlists/watchlist_providers.dart';
+import 'package:tradedirect/features/watchlists/widgets/watchlist_row.dart';
+import 'package:tradedirect/market/market_providers.dart';
 
 import '../support/fake_snapshots.dart';
 

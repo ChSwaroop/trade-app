@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:trade_app/core/money/money.dart';
-import 'package:trade_app/data/models/price_snapshot.dart';
-import 'package:trade_app/data/models/quote.dart';
-import 'package:trade_app/market/stock_universe.dart';
+import 'package:tradedirect/core/money/money.dart';
+import 'package:tradedirect/data/models/price_snapshot.dart';
+import 'package:tradedirect/data/models/quote.dart';
+import 'package:tradedirect/market/stock_universe.dart';
 
 /// Emits snapshots on demand, standing in for the coalescing store.
 ///

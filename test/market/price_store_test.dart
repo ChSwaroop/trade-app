@@ -3,13 +3,13 @@ import 'dart:math';
 
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:trade_app/core/money/money.dart';
-import 'package:trade_app/data/models/price_snapshot.dart';
-import 'package:trade_app/data/models/quote.dart';
-import 'package:trade_app/market/feed_config.dart';
-import 'package:trade_app/market/mock_feed_engine.dart';
-import 'package:trade_app/market/price_store.dart';
-import 'package:trade_app/market/stock_universe.dart';
+import 'package:tradedirect/core/money/money.dart';
+import 'package:tradedirect/data/models/price_snapshot.dart';
+import 'package:tradedirect/data/models/quote.dart';
+import 'package:tradedirect/market/feed_config.dart';
+import 'package:tradedirect/market/mock_feed_engine.dart';
+import 'package:tradedirect/market/price_store.dart';
+import 'package:tradedirect/market/stock_universe.dart';
 
 void main() {
   group('MockFeedEngine', () {

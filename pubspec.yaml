@@ -1,5 +1,5 @@
-name: trade_app
-description: "A simulated trading app for 10 NSE stocks with a mock live market feed."
+name: tradedirect
+description: "TradeDirect — a simulated trading app for 10 NSE stocks with a mock live market feed."
 publish_to: 'none'
 
 version: 1.0.0+1

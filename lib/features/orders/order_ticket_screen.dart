@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -371,7 +372,7 @@ class _SidePill extends StatelessWidget {
   }
 }
 
-class _QuantityInput extends StatelessWidget {
+class _QuantityInput extends StatefulWidget {
   const _QuantityInput({
     required this.quantity,
     required this.hasError,
@@ -383,8 +384,82 @@ class _QuantityInput extends StatelessWidget {
   final ValueChanged<int> onChanged;
 
   @override
+  State<_QuantityInput> createState() => _QuantityInputState();
+}
+
+class _QuantityInputState extends State<_QuantityInput> {
+  late final TextEditingController _controller;
+  late final FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: '${widget.quantity}');
+    _focusNode = FocusNode();
+    // Select-all on focus so typing replaces the value in one tap — the point
+    // of the edit-in-place UX is that a bad overshoot doesn't need backspaces.
+    _focusNode.addListener(_handleFocusChange);
+  }
+
+  @override
+  void didUpdateWidget(covariant _QuantityInput old) {
+    super.didUpdateWidget(old);
+    // External changes (chips, +/- buttons) must reflect in the field, but
+    // don't clobber the caret while the user is mid-edit.
+    if (widget.quantity != old.quantity && !_focusNode.hasFocus) {
+      final String next = '${widget.quantity}';
+      if (_controller.text != next) {
+        _controller.value = TextEditingValue(
+          text: next,
+          selection: TextSelection.collapsed(offset: next.length),
+        );
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_handleFocusChange);
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _handleFocusChange() {
+    if (_focusNode.hasFocus) {
+      _controller.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: _controller.text.length,
+      );
+    } else {
+      // Empty or zero on blur snaps back to 1 — never leave the field in a
+      // state the validator rejects.
+      final int parsed = int.tryParse(_controller.text) ?? 0;
+      final int clamped = parsed < 1 ? 1 : parsed;
+      if (clamped != widget.quantity) widget.onChanged(clamped);
+      final String canonical = '$clamped';
+      if (_controller.text != canonical) _controller.text = canonical;
+    }
+  }
+
+  void _handleChanged(String raw) {
+    if (raw.isEmpty) return; // Let the user clear before typing; commit on blur.
+    final int parsed = int.tryParse(raw) ?? widget.quantity;
+    final int clamped = parsed.clamp(1, OrderRepository.maxQuantity);
+    if (clamped != parsed) {
+      final String canonical = '$clamped';
+      _controller.value = TextEditingValue(
+        text: canonical,
+        selection: TextSelection.collapsed(offset: canonical.length),
+      );
+    }
+    if (clamped != widget.quantity) widget.onChanged(clamped);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final Color borderColor = hasError ? AppColors.sell : AppColors.hairline;
+    final Color borderColor =
+        widget.hasError ? AppColors.sell : AppColors.hairline;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -404,25 +479,39 @@ class _QuantityInput extends StatelessWidget {
           child: Row(
             children: <Widget>[
               IconButton(
-                onPressed: quantity > 1
-                    ? () => onChanged(quantity - 1)
+                onPressed: widget.quantity > 1
+                    ? () => widget.onChanged(widget.quantity - 1)
                     : null,
                 icon: const Icon(Icons.remove),
                 color: AppColors.onSurfaceVariant,
                 tooltip: 'Decrease quantity',
               ),
               Expanded(
-                child: Center(
-                  child: Text(
-                    '$quantity',
-                    style: AppTypography.headlineMd,
-                    key: const ValueKey<String>('ticket-quantity'),
+                child: TextField(
+                  key: const ValueKey<String>('ticket-quantity'),
+                  controller: _controller,
+                  focusNode: _focusNode,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(
+                      '${OrderRepository.maxQuantity}'.length,
+                    ),
+                  ],
+                  style: AppTypography.headlineMd,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    isCollapsed: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 12),
                   ),
+                  onChanged: _handleChanged,
+                  onSubmitted: (_) => _focusNode.unfocus(),
                 ),
               ),
               IconButton(
-                onPressed: quantity < OrderRepository.maxQuantity
-                    ? () => onChanged(quantity + 1)
+                onPressed: widget.quantity < OrderRepository.maxQuantity
+                    ? () => widget.onChanged(widget.quantity + 1)
                     : null,
                 icon: const Icon(Icons.add),
                 color: AppColors.onSurfaceVariant,

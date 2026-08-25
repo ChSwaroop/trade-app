@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:trade_app/core/money/money.dart';
-import 'package:trade_app/core/storage/json_store.dart';
-import 'package:trade_app/data/models/order.dart';
-import 'package:trade_app/data/repositories/order_repository.dart';
+import 'package:tradedirect/core/money/money.dart';
+import 'package:tradedirect/core/storage/json_store.dart';
+import 'package:tradedirect/data/models/order.dart';
+import 'package:tradedirect/data/repositories/order_repository.dart';
 
 void main() {
   late InMemoryJsonStore store;

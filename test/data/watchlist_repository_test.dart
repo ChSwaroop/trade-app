@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:trade_app/core/storage/json_store.dart';
-import 'package:trade_app/data/models/watchlist.dart';
-import 'package:trade_app/data/repositories/watchlist_repository.dart';
+import 'package:tradedirect/core/storage/json_store.dart';
+import 'package:tradedirect/data/models/watchlist.dart';
+import 'package:tradedirect/data/repositories/watchlist_repository.dart';
 
 void main() {
   late InMemoryJsonStore store;

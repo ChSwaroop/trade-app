@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:trade_app/core/money/money.dart';
-import 'package:trade_app/data/models/order.dart';
-import 'package:trade_app/data/models/position.dart';
+import 'package:tradedirect/core/money/money.dart';
+import 'package:tradedirect/data/models/order.dart';
+import 'package:tradedirect/data/models/position.dart';
 
 void main() {
   Order buy(String sym, int qty, int paise, {int seconds = 0}) => Order(

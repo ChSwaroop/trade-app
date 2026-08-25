@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:trade_app/core/money/money.dart';
-import 'package:trade_app/core/money/money_format.dart';
-import 'package:trade_app/core/storage/json_store.dart';
-import 'package:trade_app/data/models/order.dart';
-import 'package:trade_app/features/orders/order_ticket_screen.dart';
-import 'package:trade_app/features/orders/orders_providers.dart';
-import 'package:trade_app/features/watchlists/watchlist_providers.dart';
-import 'package:trade_app/market/feed_config.dart';
-import 'package:trade_app/market/market_providers.dart';
-import 'package:trade_app/market/mock_feed_engine.dart';
-import 'package:trade_app/market/price_store.dart';
+import 'package:tradedirect/core/money/money.dart';
+import 'package:tradedirect/core/money/money_format.dart';
+import 'package:tradedirect/core/storage/json_store.dart';
+import 'package:tradedirect/data/models/order.dart';
+import 'package:tradedirect/features/orders/order_ticket_screen.dart';
+import 'package:tradedirect/features/orders/orders_providers.dart';
+import 'package:tradedirect/features/watchlists/watchlist_providers.dart';
+import 'package:tradedirect/market/feed_config.dart';
+import 'package:tradedirect/market/market_providers.dart';
+import 'package:tradedirect/market/mock_feed_engine.dart';
+import 'package:tradedirect/market/price_store.dart';
 
 import '../support/fake_snapshots.dart';
 

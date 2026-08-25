@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:trade_app/data/models/quote.dart';
-import 'package:trade_app/market/market_providers.dart';
-import 'package:trade_app/market/stock_universe.dart';
+import 'package:tradedirect/data/models/quote.dart';
+import 'package:tradedirect/market/market_providers.dart';
+import 'package:tradedirect/market/stock_universe.dart';
 
 import '../support/fake_snapshots.dart';
 

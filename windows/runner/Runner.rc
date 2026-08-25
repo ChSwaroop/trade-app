@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "trade_app" "\0"
+            VALUE "FileDescription", "TradeDirect" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "trade_app" "\0"
+            VALUE "InternalName", "tradedirect" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "trade_app.exe" "\0"
-            VALUE "ProductName", "trade_app" "\0"
+            VALUE "OriginalFilename", "tradedirect.exe" "\0"
+            VALUE "ProductName", "TradeDirect" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
